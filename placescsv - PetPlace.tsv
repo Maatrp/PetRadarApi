@@ -1,0 +1,24 @@
+name_place	status	place_type	avg_rating	website	phone	latitude	longitude	tags	terrace	interiorAccess	address	town	zip
+Vega del Rey	AC	MALL	4.2			37,3871184	-6,0697631		FALSE	FALSE	Calle Glorita Gaviño	Camas	41900
+Lagoh Sevilla	AC	MALL	4.4	https://www.lagoh.es/	955604554	37,3424238	-6,1491883		FALSE	FALSE	Avenida de Palmas Altas, n1	Sevilla	41012
+Los Arcos	AC	MALL	4.3	https://cclosarcos.com/	954676005	37,3881972	-6,1960297		FALSE	FALSE	Avenida de Andalucía, s/n	Sevilla	41007
+Torre Sevilla	AC	MALL	4.3	https://www.cctorresevilla.com/	649737825	37,3914407	-6,0310059		FALSE	FALSE	Calle Gonzalo Jimenez de Quesada, n2	Sevilla	41092
+Metromar	AC	MALL	4.2	http://ccmetromar.com/	955089849	37,3502362	-6,0512162		FALSE	FALSE	Avenida de los Descubrimientos, s/n	Mairena del Aljarafe	41927
+Sevilla Fashion Outlet	AC	MALL	4.2	https://sevillafashionoutlet.com/	954997297	37,4393918	-5,885547		FALSE	FALSE	Polígono Industrial Los Espartales, A4, KM 531	San José de la Rinconada	41300
+Alamillo	AC	PARK	4.6	http://www.parquedelalamillo.org/	608890299	37,425073	-5,9991398		FALSE	FALSE	Zona Isla de la Cartuja	Sevilla	41970
+Parque de los Príncipes	AC	PARK	4.3	https://www.sevilla.org/servicios/medio-ambiente-parques-jardines/parques/parques-urbanos/parque-de-los-principes		37,3736391	-6,0105963		FALSE	FALSE	Avenida Blas Infante, n2	Sevilla	41011
+Miraflores	AC	PARK	4.4	https://www.sevilla.org/servicios/medio-ambiente-parques-jardines/parques/parques-urbanos/parque-de-miraflores		37,4106303	-5,9986086		FALSE	FALSE	Avenida las Asociaciones de Vecinos, n21	Sevilla	41008
+Parque Perros Agility	AC	PARK	3.7			37,353096	-5,9799217		FALSE	FALSE	Avenida de Jerez, n11	Sevilla	41013
+Bar Catedral Sevilla	AC	RESTURANT	4.4	https://www.barcatedral.eu/	954212174	37,38617	-6,0273519		TRUE	FALSE	Calle Mateos Gago, n5	Sevilla	41004
+Toby eats the world	AC	RESTURANT	4.4	https://tobyeatstheworld.com/		37,3821807	-5,9952695		TRUE	TRUE	Calle Almonte Lobo, n1	Sevilla	41001
+Pet Jilton Club	AC	HOTEL	4.7	http://www.petjiltonclub.com/	615191702	37,359996	-6,0956249		FALSE	FALSE	Bormujos Km7 Carretera	Sevilla	41930
+Alvaro adiestrador	AC	HOTEL	4.8			37,3107956	-5,928931		FALSE	FALSE	Calle Residencia H.H Cruz Blanca, n34	Dos Hermanas	41704
+Gigante bar	AC	COFFESHOP	4.2		955294529	37,3973083	-5,9970002		TRUE	FALSE	Alameda de Hércules, n17	Sevilla	41002
+Bar Fabiola	AC	COFFESHOP	4			37,3899032	-5,9939799		TRUE	FALSE	Custa del Rosario, n11	Sevilla	41004
+TuCan	AC	VETERINARY	4.8	https://clinicaveterinariadoshermanas.es/	955080193	37,2942668	-6,2271881		FALSE	FALSE	Avenida de Adolfo Suárez, n8	Dos Hermanas	41704
+San Jacinto	AC	VETERINARY	4.8	https://clinicaveterinariasanjacinto.es/	955132547	37,3818888	-6,1653087		FALSE	FALSE	El Pasaje, Calle San Jacinto, n96, Local F	Sevilla	41010
+Mascotasalud	AC	VETERINARY	4.2	http://www.mascotasalud.com/	954870057	37,3725872	-6,1086956		FALSE	FALSE	Avenida de la Arboleda, n40	Tomares	41940
+El caniche rosa	AC	HAIRDRESSER	5		611500543	37,3730817	-6,1081088		FALSE	FALSE	Calle Virgen de las Nieves	Tomares	41940
+Canina Look Can	AC	HAIRDRESSER	4.7	https://lookcan.es/	649302204	37,3873447	-6,113555		FALSE	FALSE	Calle Castilla, n40	Sevilla	41010
+Las Huellas de Noah	AC	HAIRDRESSER	4.9		624287184	37,3873447	-6,113555		FALSE	FALSE	Calle Jardín de Sta. Eufemia, local 5	Tomares	41940
+Marina Núñez Groomer	AC	HAIRDRESSER	4.6		667087805	37,3850082	-6,1735837		FALSE	FALSE	Calle Virgen de la Cinta, n20	Sevilla	41011
