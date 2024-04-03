@@ -23,6 +23,7 @@ public class AuthenticationController {
         try {
             AuthenticationResponse jwtDto = authenticationService.login(authenticationRequest);
             return new ResponseEntity<>(jwtDto,HttpStatus.OK);
+
         }catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

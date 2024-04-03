@@ -65,7 +65,7 @@ public class EmailService {
             User user = userService.findUserByEmail(to);
             String body = "<h1>Verificación de Email</h1>"
                     + "<p>Clica en el enlace de a continuación para verificar su correo electrónico</p>"
-                    + "<a href=\"https://petradar.click/user/validateEmail?email="
+                    + "<a href=\"https://petradar.click/user/validate-email?email="
                     + to + "&token=" + authenticationService.generateJwt(user) + "\">Verificar Email</a>";
             message.setContent(body, "text/html");
 
