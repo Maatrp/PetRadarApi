@@ -1,5 +1,6 @@
 package com.api.petradar.authetication;
 
+import com.api.petradar.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,10 @@ public class AuthenticationResponse {
 
     private String jwt;
 
-    public AuthenticationResponse(String jwt) {
+    private User user;
+
+    public AuthenticationResponse(String jwt, User user) {
         this.jwt = jwt;
+        this.user = user;
     }
 }

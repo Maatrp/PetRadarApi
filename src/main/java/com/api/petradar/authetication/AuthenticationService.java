@@ -1,10 +1,7 @@
 package com.api.petradar.authetication;
 
 import com.api.petradar.jwt.JwtService;
-import com.api.petradar.permission.Permission;
-import com.api.petradar.permission.PermissionRepository;
 import com.api.petradar.user.User;
-import com.api.petradar.user.UserRepository;
 import com.api.petradar.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,7 +39,7 @@ public class AuthenticationService {
 
             String jwt = generateJwt(user);
 
-            return new AuthenticationResponse(jwt);
+            return new AuthenticationResponse(jwt, user);
 
         } else {
 
