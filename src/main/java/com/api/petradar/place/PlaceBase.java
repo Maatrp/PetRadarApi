@@ -1,5 +1,6 @@
 package com.api.petradar.place;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
