@@ -64,7 +64,6 @@ public class UserController {
 
     }
 
-    /*todo Funcionalidad modificar usuario*/
     @PreAuthorize("hasAuthority('MODIFY_USER')")
     @PutMapping("/modify")
     public ResponseEntity<String> ModifyUser(@RequestBody User user, @RequestHeader("Authorization") String token) {

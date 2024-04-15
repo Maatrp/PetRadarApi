@@ -1,7 +1,5 @@
 package com.api.petradar.user;
 
-
-import com.mongodb.client.result.DeleteResult;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,16 +19,15 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query("{ 'userName' : ?0, 'password' : ?1}")
     User findUserByUserNamePassword(String userName, String password);
 
-//    @Override
-//    public void updateByUserName(String userName, User user) {
-//        Query query = new Query(Criteria.where("userName").is(userName));
-//        Update update = new Update()
-//                .set("userName", user.getUserName()) // Actualiza userName
-//                .set("name", user.getName()) // Actualiza name
-//                .set("field3", user.getField3()) // Agrega más campos según sea necesario
-//                .set("lastModifiedDate", new Date()); // Ejemplo: establece la fecha de modificación
-//        mongoTemplate.updateFirst(query, update, User.class);
-//    }
+    default void updateByUserName(String userName, User user) {
+        User existingUser = findUserByUserName(userName);
+        if (existingUser != null) {
+            existingUser.setName(user.getName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPassword(user.getPassword());
+            save(existingUser);
+        }
+    }
 
 
     void deleteByUserName(String userName);

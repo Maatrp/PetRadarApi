@@ -60,10 +60,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.getWriter().write("Token expirado");
 
-        } catch (SignatureException se) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            response.getWriter().write("Token incorrecto");
-
         }
     }
 }
