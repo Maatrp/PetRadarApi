@@ -10,6 +10,8 @@ import com.api.petradar.placeimages.PlaceImages;
 import com.api.petradar.placeimages.PlaceImagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +66,7 @@ public class PlaceService {
                 System.out.println(optionalPlace);
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("getPlaceById: " + e);
 
         }
@@ -84,7 +86,7 @@ public class PlaceService {
                 System.out.println(optionalPlaceImage);
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("getPlaceById: " + e);
 
         }
@@ -94,7 +96,6 @@ public class PlaceService {
 
 
     public void loadPlace(Place place) {
-        // Verifica si ya existe un lugar con el mismo place_name y zip
         boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
 
         if (!exists) {
@@ -106,7 +107,6 @@ public class PlaceService {
     }
 
     public boolean createPlace(String email, Place place) {
-        // Verifica si ya existe un lugar con el mismo place_name y zip
         boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
         boolean isCreated = false;
 
@@ -116,14 +116,14 @@ public class PlaceService {
             place.setStatus("PEND");
 
             PlaceGeolocation geolocation = new PlaceGeolocation("Point",
-                    new double[] {place.getGeolocation().getCoordinates()[0], place.getGeolocation().getCoordinates()[1]});
+                    new double[]{place.getGeolocation().getCoordinates()[0], place.getGeolocation().getCoordinates()[1]});
             place.setGeolocation(geolocation);
 
-            if(place.getWebsite() == null){
+            if (place.getWebsite() == null) {
                 place.setWebsite("");
             }
 
-            if(place.getPhone() == null){
+            if (place.getPhone() == null) {
                 place.setPhone("");
             }
 
@@ -138,7 +138,6 @@ public class PlaceService {
             description.setDescription(place.getPlaceDescription());
             descriptionRepository.save(description);
 
-            System.out.println("Nuevo lugar guardado: " + place);
             isCreated = true;
         } else {
             System.out.println("Ya existe un lugar con el mismo place_name y zip: " + place);
@@ -147,7 +146,41 @@ public class PlaceService {
         return isCreated;
     }
 
-    public List<PlaceBase> findNearPlaces(double latitude, double longitude, double maxDistanceInMeters, String userId) {
+    public boolean updateStatusPlace(String placeId, String status) {
+        boolean isStatusUpdated = false;
+
+        Place place = updateStatus(placeId, status);
+
+        if (place != null) {
+            placeRepository.save(place);
+            isStatusUpdated = true;
+        }
+
+        return isStatusUpdated;
+    }
+
+    @Transactional
+    public boolean updateAllStatusPlaces(List<String> placeIdList, String status) {
+        try {
+            List<Place> placesList = new ArrayList<>();
+
+            for (String placeId : placeIdList) {
+                Place place = updateStatus(placeId, status);
+                placesList.add(place);
+            }
+
+            placeRepository.saveAll(placesList);
+
+            return true;
+
+        } catch (Exception ex) {
+            return false;
+
+        }
+    }
+
+    public List<PlaceBase> findNearPlaces(double latitude, double longitude, double maxDistanceInMeters, String
+            userId) {
 
         // USAR placeFilter
         List<PlaceBase> placeBases = new ArrayList<>();
@@ -170,22 +203,21 @@ public class PlaceService {
         return placeBases;
     }
 
-
     private static PlaceBase getPlaceBase(Place place) {
         PlaceBase placeBase = new PlaceBase();
         placeBase.setId(place.getId());
         placeBase.setName(place.getName());
         placeBase.setType(place.getType());
-        if(place.getGeolocation() != null &&
+        if (place.getGeolocation() != null &&
                 place.getGeolocation().getCoordinates() != null &&
-                place.getGeolocation().getCoordinates().length == 2){
+                place.getGeolocation().getCoordinates().length == 2) {
             placeBase.setLatitude(place.getGeolocation().getCoordinates()[0]);
             placeBase.setLongitude(place.getGeolocation().getCoordinates()[1]);
         }
         return placeBase;
     }
 
-    private boolean checkIsFavorite( String placeId, String userId) {
+    private boolean checkIsFavorite(String placeId, String userId) {
         List<Favorite> favoriteList = favoritesRepository.findAllByUserId(userId);
 
         boolean isFavorite = false;
@@ -199,5 +231,22 @@ public class PlaceService {
         return isFavorite;
     }
 
+    private Place updateStatus(String placeId, String status) {
+        Place place = placeRepository.findByCustomId(placeId);
 
+        if (place != null) {
+            place.setStatus(status);
+
+            if (status.equals("AC")) {
+                place.setTimeAccepted(new Date(System.currentTimeMillis()));
+            } else if (status.equals("DC")) {
+                place.setTimeDeclined(new Date(System.currentTimeMillis()));
+            }
+
+            place.setTimeUpdated(new Date(System.currentTimeMillis()));
+
+        }
+
+        return place;
+    }
 }
