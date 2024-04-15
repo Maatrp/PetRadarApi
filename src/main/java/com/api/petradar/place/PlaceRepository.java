@@ -15,4 +15,8 @@ public interface PlaceRepository  extends MongoRepository<Place, String> {
     List<Place> findNearPlaces(double longitude, double latitude, double maxDistanceInRadians);
     @ExistsQuery(value = "{ 'name_place' : ?0, 'zip' : ?1 }")
     boolean existsByPlaceNameAndZip(String placeName, String zip);
+
+    @Query(value = "{'_id' : ?0}")
+    Place findByCustomId(String placeId);
+
 }

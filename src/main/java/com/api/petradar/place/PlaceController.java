@@ -52,4 +52,40 @@ public class PlaceController {
                     .body("No se ha podido crear el lugar.");
         }
     }
+
+    @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
+    @PutMapping("/update-status/{placeId}/{status}")
+    public ResponseEntity<String> updateStatusPlace(@PathVariable String placeId, @PathVariable String status) {
+        try {
+            boolean placeStatusUpdated = placeService.updateStatusPlace(placeId, status);
+
+            if (placeStatusUpdated) {
+                return ResponseEntity.status(HttpStatus.OK).body("Estado del espacio actualizado.");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("No se ha podido actualizar el estado.");
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("No se ha podido modificar el estado.");
+        }
+    }
+
+    @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
+    @PutMapping("/update-all-status/{status}")
+    public ResponseEntity<String> updateAllStatusPlaces(@RequestBody List<String> placeIdList, @PathVariable String status) {
+        try {
+            boolean placesStatusUpdated = placeService.updateAllStatusPlaces(placeIdList, status);
+
+            if (placesStatusUpdated) {
+                return ResponseEntity.status(HttpStatus.OK).body("Los estados han sido actualizados.");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Los estados no se han podido actualizar.");
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Los estados no se ha podido modificar.");
+        }
+    }
 }
