@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 import java.util.Map;
 
 @Service
@@ -26,12 +25,12 @@ public class AuthenticationService {
 
     public AuthenticationResponse login(AuthenticationRequest authRequest) {
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthToken = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken userNamePasswordAuthToken = new UsernamePasswordAuthenticationToken(
                 authRequest.getUserName(), authRequest.getPassword()
         );
 
 
-        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthToken);
+        Authentication authentication = authenticationManager.authenticate(userNamePasswordAuthToken);
 
         if (authentication.isAuthenticated()) {
 

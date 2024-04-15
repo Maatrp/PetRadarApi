@@ -28,7 +28,7 @@ public class EmailService {
     private int port;
 
     @Value("${mail.smtp.user}")
-    private String username;
+    private String userName;
 
     @Value("${mail.smtp.password}")
     private String password;
@@ -52,14 +52,14 @@ public class EmailService {
             Session session = Session.getInstance(props,
                     new Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
+                            return new PasswordAuthentication(userName, password);
                         }
                     });
             session.setDebug(true);
 
             // Crear mensaje
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
+            message.setFrom(new InternetAddress(userName));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("Verificación de email - PetRadar");
             User user = userService.findUserByEmail(to);

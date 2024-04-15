@@ -89,10 +89,11 @@ public class UserService {
 
     public boolean updateUser(User user,String token) {
         User userByJwt = extractUserNameFromJwt(token);
+        String userName = user.getUsername();
         boolean isUpdated = false;
 
-        if (user.getUsername().equals(userByJwt.getUsername())) {
-            //userRepository.updateByUser(user);
+        if (userName.equals(userByJwt.getUsername())) {
+            userRepository.updateByUserName(userName, user);
             isUpdated = true;
         }
 

@@ -1,6 +1,7 @@
 package com.api.petradar.place;
 
 import com.api.petradar.placeimages.PlaceImage;
+import com.api.petradar.valorations.Valorations;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -22,15 +23,20 @@ public class Place {
     private String id;
 
     @Field("name_place")
+    @NonNull
     private String name;
 
     private String status;
 
     @Field("place_type")
+    @NonNull
     private String type;
 
     @Field("avg_rating")
     private double averageRating;
+
+    @Transient
+    private String placeDescription;
 
     private String address;
 
@@ -48,8 +54,10 @@ public class Place {
 
     private List<String> tags;
 
-    @Field("accessibility")
-    private PlaceAccessibility accessibility;
+    private List<String> restrictions;
+
+    @Field("user_email")
+    private String email;
 
     @Field("tc")
     private Date timeCreated;
@@ -68,5 +76,9 @@ public class Place {
 
     @Transient
     private boolean isFavorite;
+
+    @Transient
+    private List<Valorations> valorations;
+
 
 }

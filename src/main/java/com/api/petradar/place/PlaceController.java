@@ -34,4 +34,22 @@ public class PlaceController {
         Place place = placeService.getPlaceById(id, userId.orElse(""));
         return new ResponseEntity<>(place, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('CREATE_PLACE')")
+    @PostMapping("/create/{email}")
+    public ResponseEntity<String> createPlace(@PathVariable String email, @RequestBody Place place) {
+        try {
+            boolean placeCreated = placeService.createPlace(email, place);
+
+            if (placeCreated) {
+                return ResponseEntity.status(HttpStatus.OK).body("Nuevo espacio creado.");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Este lugar ya existe.");
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("No se ha podido crear el lugar.");
+        }
+    }
 }

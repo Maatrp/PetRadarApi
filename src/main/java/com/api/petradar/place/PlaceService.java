@@ -1,6 +1,8 @@
 package com.api.petradar.place;
 
 
+import com.api.petradar.description.Description;
+import com.api.petradar.description.DescriptionRepository;
 import com.api.petradar.favorites.Favorite;
 import com.api.petradar.favorites.FavoritesRepository;
 import com.api.petradar.placeimages.PlaceImage;
@@ -9,6 +11,7 @@ import com.api.petradar.placeimages.PlaceImagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +20,13 @@ public class PlaceService {
 
     @Autowired
     private PlaceRepository placeRepository;
+
     @Autowired
     private PlaceImagesRepository placeImagesRepository;
+
+    @Autowired
+    private DescriptionRepository descriptionRepository;
+
     @Autowired
     private FavoritesRepository favoritesRepository;
 
@@ -85,7 +93,7 @@ public class PlaceService {
     }
 
 
-    public void createPlace(Place place) {
+    public void loadPlace(Place place) {
         // Verifica si ya existe un lugar con el mismo place_name y zip
         boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
 
@@ -97,6 +105,47 @@ public class PlaceService {
         }
     }
 
+    public boolean createPlace(String email, Place place) {
+        // Verifica si ya existe un lugar con el mismo place_name y zip
+        boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
+        boolean isCreated = false;
+
+        if (!exists) {
+            place.setEmail(email);
+
+            place.setStatus("PEND");
+
+            PlaceGeolocation geolocation = new PlaceGeolocation("Point",
+                    new double[] {place.getGeolocation().getCoordinates()[0], place.getGeolocation().getCoordinates()[1]});
+            place.setGeolocation(geolocation);
+
+            if(place.getWebsite() == null){
+                place.setWebsite("");
+            }
+
+            if(place.getPhone() == null){
+                place.setPhone("");
+            }
+
+            place.setTimeCreated(new Date(System.currentTimeMillis()));
+            place.setTimeUpdated(new Date(System.currentTimeMillis()));
+
+            placeRepository.save(place);
+
+
+            Description description = new Description();
+            description.setIdPlace(place.getId());
+            description.setDescription(place.getPlaceDescription());
+            descriptionRepository.save(description);
+
+            System.out.println("Nuevo lugar guardado: " + place);
+            isCreated = true;
+        } else {
+            System.out.println("Ya existe un lugar con el mismo place_name y zip: " + place);
+        }
+
+        return isCreated;
+    }
 
     public List<PlaceBase> findNearPlaces(double latitude, double longitude, double maxDistanceInMeters, String userId) {
 
