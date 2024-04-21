@@ -19,7 +19,6 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
-    @PreAuthorize("permitAll")
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user) {
 
@@ -48,7 +47,6 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("permitAll")
     @GetMapping("/validate-email")
     public ResponseEntity<String> validateUser(@PathParam("email") String email, @PathParam("token") String token) {
 
