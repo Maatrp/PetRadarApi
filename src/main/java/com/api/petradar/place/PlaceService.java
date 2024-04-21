@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static com.api.petradar.utils.mapper.mapPlaceDtoToPlace;
+
 @Service
 public class PlaceService {
 
@@ -33,7 +35,6 @@ public class PlaceService {
     private FavoritesRepository favoritesRepository;
 
     public List<PlaceBase> getAllPlaces(PlaceFilter placeFilter, String userId) {
-        // USAR placeFilter
         List<PlaceBase> placeBases = new ArrayList<>();
 
         try {
@@ -94,30 +95,20 @@ public class PlaceService {
         return placeImageList;
     }
 
+    public boolean createPlace(String email, PlaceDto placeDto) {
+        Place place = mapPlaceDtoToPlace(placeDto);
 
-    public void loadPlace(Place place) {
         boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
 
-        if (!exists) {
-            placeRepository.save(place);
-            System.out.println("Nuevo lugar guardado: " + place);
-        } else {
-            System.out.println("Ya existe un lugar con el mismo place_name y zip: " + place);
-        }
-    }
-
-    public boolean createPlace(String email, Place place) {
-        boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
         boolean isCreated = false;
 
         if (!exists) {
+
             place.setEmail(email);
 
             place.setStatus("PEND");
 
-            PlaceGeolocation geolocation = new PlaceGeolocation("Point",
-                    new double[]{place.getGeolocation().getCoordinates()[0], place.getGeolocation().getCoordinates()[1]});
-            place.setGeolocation(geolocation);
+            place.setGeolocation(place.getGeolocation());
 
             if (place.getWebsite() == null) {
                 place.setWebsite("");
@@ -201,6 +192,17 @@ public class PlaceService {
         }
 
         return placeBases;
+    }
+
+    public void loadPlace(Place place) {
+        boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
+
+        if (!exists) {
+            placeRepository.save(place);
+            System.out.println("Nuevo lugar guardado: " + place);
+        } else {
+            System.out.println("Ya existe un lugar con el mismo place_name y zip: " + place);
+        }
     }
 
     private static PlaceBase getPlaceBase(Place place) {

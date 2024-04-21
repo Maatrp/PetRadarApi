@@ -16,7 +16,6 @@ public class PlaceController {
     @Autowired
     private PlaceService placeService;
 
-    @PreAuthorize("permitAll")
     @PostMapping("/list")
     public ResponseEntity<List<PlaceBase>> getRequestFilter(@RequestBody PlaceFilter placeFilter, @RequestParam Optional<String> userId) {
         try {
@@ -28,7 +27,6 @@ public class PlaceController {
         }
     }
 
-    @PreAuthorize("permitAll")
     @GetMapping("/card/{id}")
     public ResponseEntity<Place> getPlaceById(@PathVariable String id, @RequestParam Optional<String> userId) {
         Place place = placeService.getPlaceById(id, userId.orElse(""));
@@ -37,9 +35,9 @@ public class PlaceController {
 
     @PreAuthorize("hasAuthority('CREATE_PLACE')")
     @PostMapping("/create/{email}")
-    public ResponseEntity<String> createPlace(@PathVariable String email, @RequestBody Place place) {
+    public ResponseEntity<String> createPlace(@PathVariable String email, @RequestBody PlaceDto placeDto) {
         try {
-            boolean placeCreated = placeService.createPlace(email, place);
+            boolean placeCreated = placeService.createPlace(email, placeDto);
 
             if (placeCreated) {
                 return ResponseEntity.status(HttpStatus.OK).body("Nuevo espacio creado.");
