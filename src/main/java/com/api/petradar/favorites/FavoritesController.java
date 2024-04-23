@@ -1,5 +1,6 @@
 package com.api.petradar.favorites;
 
+import com.api.petradar.place.PlaceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 public class FavoritesController {
     @Autowired
     private FavoritesService favoritesService;
+
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @PutMapping("/add/{userId}/{placeId}")
     public ResponseEntity<String> favoriteAdd(@PathVariable String userId, @PathVariable String placeId) {
@@ -50,10 +52,11 @@ public class FavoritesController {
 
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @GetMapping("/list/{userId}")
-    public ResponseEntity<List<Favorite>> getFavoritesByUser(@PathVariable String userId) {
+    public ResponseEntity<List<PlaceBase>> getFavoritesByUser(@PathVariable String userId) {
         try {
-            List<Favorite> favoritesList = favoritesService.getFavoritesByUser(userId);
-            return new ResponseEntity<>(favoritesList, HttpStatus.OK);
+            List<PlaceBase> placeList = favoritesService.getFavoritesByUser(userId);
+
+            return new ResponseEntity<>(placeList, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -34,10 +34,10 @@ public class PlaceController {
     }
 
     @PreAuthorize("hasAuthority('CREATE_PLACE')")
-    @PostMapping("/create/{email}")
-    public ResponseEntity<String> createPlace(@PathVariable String email, @RequestBody PlaceDto placeDto) {
+    @PostMapping("/create/{idUser}")
+    public ResponseEntity<String> createPlace(@PathVariable String idUser, @RequestBody PlaceDto placeDto) {
         try {
-            boolean placeCreated = placeService.createPlace(email, placeDto);
+            boolean placeCreated = placeService.createPlace(idUser, placeDto);
 
             if (placeCreated) {
                 return ResponseEntity.status(HttpStatus.OK).body("Nuevo espacio creado.");

@@ -22,4 +22,7 @@ public class Description {
     private String idPlace;
 
     private String description;
+
+    @Field("lang")
+    private String language;
 }
