@@ -56,8 +56,8 @@ public class Place {
 
     private List<String> restrictions;
 
-    @Field("user_email")
-    private String email;
+    @Field("id_user")
+    private String idUser;
 
     @Field("tc")
     private Date timeCreated;

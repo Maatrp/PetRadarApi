@@ -13,6 +13,10 @@ public interface PlaceRepository  extends MongoRepository<Place, String> {
 
     @Query(value = "{ 'location' : { $nearSphere : { $geometry : { type : 'Point' , coordinates : [ ?0 , ?1 ] } , $maxDistance : ?2 }}}")
     List<Place> findNearPlaces(double longitude, double latitude, double maxDistanceInRadians);
+
+    @Query("{ 'status' : 'AC' }")
+    List<Place> findPlacesAccepted();
+
     @ExistsQuery(value = "{ 'name_place' : ?0, 'zip' : ?1 }")
     boolean existsByPlaceNameAndZip(String placeName, String zip);
 

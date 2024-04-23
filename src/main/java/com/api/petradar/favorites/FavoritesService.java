@@ -1,5 +1,8 @@
 package com.api.petradar.favorites;
 
+import com.api.petradar.place.Place;
+import com.api.petradar.place.PlaceBase;
+import com.api.petradar.place.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,9 @@ import java.util.List;
 public class FavoritesService {
     @Autowired
     private FavoritesRepository favoritesRepository;
+
+    @Autowired
+    private PlaceRepository placeRepository;
 
 
     public boolean favoriteAdd(String userId, String placeId) {
@@ -44,11 +50,25 @@ public class FavoritesService {
         return removed;
     }
 
-    public List<Favorite> getFavoritesByUser(String userId) {
+    public List<PlaceBase> getFavoritesByUser(String userId) {
 
         try {
             List<Favorite> favoritesList = favoritesRepository.findAllByUserId(userId);
-            return favoritesList;
+            List<PlaceBase> placeBaseList = new ArrayList<>();
+
+            for (Favorite favorite : favoritesList) {
+                Place place = placeRepository.findByCustomId(favorite.getPlaceId());
+                PlaceBase placeBase = new PlaceBase(
+                        place.getId(),
+                        place.getName(),
+                        place.getType(),
+                        place.getGeolocation().getCoordinates()[0],
+                        place.getGeolocation().getCoordinates()[1],
+                        true);
+                placeBaseList.add(placeBase);
+            }
+
+            return placeBaseList;
 
         } catch (Exception e) {
             System.out.println("getFavoritesByUser: " + e);

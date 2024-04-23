@@ -95,7 +95,7 @@ public class PlaceService {
         return placeImageList;
     }
 
-    public boolean createPlace(String email, PlaceDto placeDto) {
+    public boolean createPlace(String idUser, PlaceDto placeDto) {
         Place place = mapPlaceDtoToPlace(placeDto);
 
         boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
@@ -104,7 +104,7 @@ public class PlaceService {
 
         if (!exists) {
 
-            place.setEmail(email);
+            place.setIdUser(idUser);
 
             place.setStatus("PEND");
 
@@ -127,6 +127,7 @@ public class PlaceService {
             Description description = new Description();
             description.setIdPlace(place.getId());
             description.setDescription(place.getPlaceDescription());
+            description.setLanguage("es");
             descriptionRepository.save(description);
 
             isCreated = true;
