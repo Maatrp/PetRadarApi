@@ -17,7 +17,7 @@ public class TypeController {
     private TypeService typeService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<Type>> getAllTags() {
+    public ResponseEntity<List<Type>> getAllTypes() {
         try {
             List<Type> typeList = typeService.getAllTypes();
             return new ResponseEntity<>(typeList, HttpStatus.OK);

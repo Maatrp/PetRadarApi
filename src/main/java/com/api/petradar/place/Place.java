@@ -1,7 +1,7 @@
 package com.api.petradar.place;
 
 import com.api.petradar.placeimages.PlaceImage;
-import com.api.petradar.valorations.Valorations;
+import com.api.petradar.valuation.Valuation;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -78,7 +78,7 @@ public class Place {
     private boolean isFavorite;
 
     @Transient
-    private List<Valorations> valorations;
+    private List<Valuation> valorations;
 
 
 }

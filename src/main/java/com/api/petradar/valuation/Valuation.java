@@ -1,4 +1,4 @@
-package com.api.petradar.valorations;
+package com.api.petradar.valuation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,8 +14,8 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "PetValorations")
-public class Valorations {
+@Document(collection = "PetValuation")
+public class Valuation {
 
     @Id
     private String id;

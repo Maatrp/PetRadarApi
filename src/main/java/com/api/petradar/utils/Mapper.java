@@ -6,7 +6,7 @@ import com.api.petradar.place.PlaceGeolocation;
 
 import java.util.Arrays;
 
-public class mapper {
+public class Mapper {
 
     public static Place mapPlaceDtoToPlace(PlaceDto placeDTO) {
         Place place = new Place();

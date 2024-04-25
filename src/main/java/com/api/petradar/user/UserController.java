@@ -64,7 +64,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('MODIFY_USER')")
     @PutMapping("/modify")
-    public ResponseEntity<String> ModifyUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<String> modifyUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
 
         boolean modified = userService.updateUser(user, tokenWithOutBearer(token));
 
