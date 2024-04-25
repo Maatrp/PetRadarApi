@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.api.petradar.utils.mapper.mapPlaceDtoToPlace;
+import static com.api.petradar.utils.Mapper.mapPlaceDtoToPlace;
 
 @Service
 public class PlaceService {
