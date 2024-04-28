@@ -77,10 +77,10 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('DELETE_USER')")
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
+    @DeleteMapping("/delete/{userName}")
+    public ResponseEntity<String> deleteUser(@PathVariable String userName, @RequestHeader("Authorization") String token) {
 
-        boolean deleted = userService.deleteByUserNameAndToken(user.getUsername(), tokenWithOutBearer(token));
+        boolean deleted = userService.deleteByUserNameAndToken(userName, tokenWithOutBearer(token));
 
         if (deleted) {
             return new ResponseEntity<>("Usuario eliminado con exito", HttpStatus.OK);
