@@ -52,6 +52,18 @@ public class PlaceController {
     }
 
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
+    @GetMapping("/pending-places/{userId}")
+    public ResponseEntity<List<PlaceBase>> getPendingPlaces(@PathVariable String userId) {
+        try {
+            List<PlaceBase> pendingPlaces = placeService.getPendingPlaces(userId);
+
+            return new ResponseEntity<>(pendingPlaces, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+    @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @PutMapping("/update-status/{placeId}/{status}")
     public ResponseEntity<String> updateStatusPlace(@PathVariable String placeId, @PathVariable String status) {
         try {

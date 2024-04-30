@@ -38,7 +38,7 @@ public class PlaceService {
         List<PlaceBase> placeBases = new ArrayList<>();
 
         try {
-            List<Place> places = placeRepository.findAll();
+            List<Place> places = placeRepository.findAcceptedPlaces();
             if (!places.isEmpty()) {
                 for (Place place : places) {
                     PlaceBase placeBase = getPlaceBase(place);
@@ -136,6 +136,27 @@ public class PlaceService {
         }
 
         return isCreated;
+    }
+
+    public List<PlaceBase> getPendingPlaces(String userId){
+        List<PlaceBase> placeBases = new ArrayList<>();
+
+        try {
+            List<Place> places = placeRepository.findPendingPlaces();
+            if (!places.isEmpty()) {
+                for (Place place : places) {
+                    PlaceBase placeBase = getPlaceBase(place);
+                    placeBase.setFavorite(checkIsFavorite(placeBase.getId(), userId));
+                    placeBases.add(placeBase);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("getAllPlaces: " + e);
+
+        }
+
+        return placeBases;
     }
 
     public boolean updateStatusPlace(String placeId, String status) {
