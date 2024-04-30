@@ -21,10 +21,10 @@ public class Valuation {
     private String id;
 
     @Field("id_place")
-    private String idPlace;
+    private String placeId;
 
     @Field("id_user")
-    private String idUser;
+    private String userId;
 
     @Field("avg_rating")
     private double averageRating;
