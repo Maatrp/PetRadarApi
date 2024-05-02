@@ -1,5 +1,7 @@
 package com.api.petradar.valuation;
 
+import com.api.petradar.user.User;
+import com.api.petradar.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class ValuationService {
     @Autowired
     private ValuationRepository valuationRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<Valuation> getValuationsPlace(String placeId) {
         List<Valuation> placeValuations = new ArrayList<>();
 
@@ -22,6 +27,8 @@ public class ValuationService {
             if (!allPlaceValuations.isEmpty()) {
                 for (Valuation valuation : allPlaceValuations) {
                     if (!valuation.isReported()) {
+                        User user = userRepository.findUserById(valuation.getUserId());
+                        valuation.setUserName(user.getUsername());
                         placeValuations.add(valuation);
                     }
                 }
