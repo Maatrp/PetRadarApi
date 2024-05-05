@@ -76,4 +76,16 @@ public class ValuationController {
 
     }
 
+    @PreAuthorize("hasAuthority('VALUATION_PLACE')")
+    @GetMapping("/{userId}/{placeId}")
+    public ResponseEntity<Boolean> getIsAlreadyValuated(@PathVariable String userId,@PathVariable String placeId) {
+        try {
+            Boolean alreadyValuated = valuationService.alreadyValuated(userId,placeId);
+
+            return new ResponseEntity<>(alreadyValuated, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 }
