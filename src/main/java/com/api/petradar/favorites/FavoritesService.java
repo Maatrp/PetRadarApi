@@ -58,14 +58,16 @@ public class FavoritesService {
 
             for (Favorite favorite : favoritesList) {
                 Place place = placeRepository.findByCustomId(favorite.getPlaceId());
-                PlaceBase placeBase = new PlaceBase(
-                        place.getId(),
-                        place.getName(),
-                        place.getType(),
-                        place.getGeolocation().getCoordinates()[0],
-                        place.getGeolocation().getCoordinates()[1],
-                        true);
-                placeBaseList.add(placeBase);
+                if (place.getStatus().equals("AC")) {
+                    PlaceBase placeBase = new PlaceBase(
+                            place.getId(),
+                            place.getName(),
+                            place.getType(),
+                            place.getGeolocation().getCoordinates()[0],
+                            place.getGeolocation().getCoordinates()[1],
+                            true);
+                    placeBaseList.add(placeBase);
+                }
             }
 
             return placeBaseList;
