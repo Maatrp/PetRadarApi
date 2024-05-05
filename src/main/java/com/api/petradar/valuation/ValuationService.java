@@ -1,5 +1,7 @@
 package com.api.petradar.valuation;
 
+import com.api.petradar.place.Place;
+import com.api.petradar.place.PlaceRepository;
 import com.api.petradar.user.User;
 import com.api.petradar.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class ValuationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PlaceRepository placeRepository;
 
     public List<Valuation> getValuationsPlace(String placeId) {
         List<Valuation> placeValuations = new ArrayList<>();
@@ -49,7 +54,13 @@ public class ValuationService {
             valuation.setTimeCreated(new Date(System.currentTimeMillis()));
             valuation.setReported(false);
             valuationRepository.save(valuation);
+
+            Place place = placeRepository.findByCustomId(valuation.getPlaceId());
+            place.setAverageRating(updateAverageRating(place.getId()));
+            placeRepository.save(place);
             isCreated = true;
+
+
         } else {
             System.out.println("Ya has valorado este lugar");
         }
@@ -82,4 +93,23 @@ public class ValuationService {
         return isDeleted;
     }
 
+    public boolean alreadyValuated(String userId, String placeId) {
+        return valuationRepository.alreadyValuated(userId, placeId);
+    }
+
+    private double updateAverageRating(String placeId) {
+        List<Valuation> valuationList = valuationRepository.findByPlaceId(placeId);
+
+        double averageRating = 0;
+        double sum = 0;
+
+        if (!valuationList.isEmpty()) {
+            for (Valuation valuation : valuationList) {
+                sum += valuation.getAverageRating();
+            }
+            averageRating = sum / valuationList.size();
+        }
+
+        return averageRating;
+    }
 }
