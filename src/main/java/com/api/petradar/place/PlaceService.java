@@ -62,6 +62,9 @@ public class PlaceService {
             Optional<Place> optionalPlace = placeRepository.findById(id);
             if (optionalPlace.isPresent()) {
                 place = optionalPlace.get();
+                Description description = descriptionRepository.findByPlaceId(place.getId());
+                if (description != null){
+                place.setDescription(description.getDescription());}
                 place.setFavorite(checkIsFavorite(place.getId(), userId));
                 place.setPlaceImages(getPlaceImagesById(id));
                 System.out.println(optionalPlace);
@@ -126,7 +129,7 @@ public class PlaceService {
 
             Description description = new Description();
             description.setIdPlace(place.getId());
-            description.setDescription(place.getPlaceDescription());
+            description.setDescription(place.getDescription());
             description.setLanguage("es");
             descriptionRepository.save(description);
 

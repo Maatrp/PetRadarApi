@@ -14,7 +14,7 @@ public class Mapper {
         place.setId(placeDTO.getId());
         place.setName(placeDTO.getName());
         place.setType(placeDTO.getType());
-        place.setPlaceDescription(placeDTO.getDescription());
+        place.setDescription(placeDTO.getDescription());
         place.setGeolocation(new PlaceGeolocation("Point", new double[]{placeDTO.getLatitude(), placeDTO.getLongitude()}));
 
         if (placeDTO.getPlaceImages() != null) {
