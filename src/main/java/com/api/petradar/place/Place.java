@@ -36,7 +36,7 @@ public class Place {
     private double averageRating;
 
     @Transient
-    private String placeDescription;
+    private String description;
 
     private String address;
 
