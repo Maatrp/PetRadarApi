@@ -195,14 +195,13 @@ public class PlaceService {
         }
     }
 
-    public List<PlaceBase> findNearPlaces(double latitude, double longitude, double maxDistanceInMeters, String
-            userId) {
+    public List<PlaceBase> findNearPlaces(PlaceFilter placeFilter, String userId) {
 
         // USAR placeFilter
         List<PlaceBase> placeBases = new ArrayList<>();
 
         try {
-            List<Place> places = placeRepository.findNearPlaces(latitude, longitude, ((maxDistanceInMeters / 1000) / 6371));
+            List<Place> places = placeRepository.findNearPlaces(placeFilter.latitude, placeFilter.longitude, 200000 / 6371);
             if (!places.isEmpty()) {
                 for (Place place : places) {
                     PlaceBase placeBase = getPlaceBase(place);
