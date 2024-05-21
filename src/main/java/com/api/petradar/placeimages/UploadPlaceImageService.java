@@ -1,24 +1,27 @@
 package com.api.petradar.placeimages;
 
+import com.api.petradar.aws.AWSS3Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Objects;
 
 @Service
 public class UploadPlaceImageService {
 
-    public String uploadImage(MultipartFile file) throws Exception {
-        if(file.isEmpty() || !Objects.equals(file.getContentType(), "lo que sea")) {
-            throw new Exception("El archivo no es una imagen válida");
-        } else if(file.getSize() > 15000000) {
-            throw new Exception("El archivo es demasiado grande");
-        } else if(!file.isEmpty()) {
+    @Autowired
+    private AWSS3Service awsService;
 
-            // string url=awsService.Load(file, "petradar-images");
+    public String uploadImage(MultipartFile file) throws Exception {
+        String url = "";
+
+        if (file.getSize() > 1000 * 1024) {
+            throw new Exception("El archivo es demasiado grande");
+
+        } else if (!file.isEmpty()) {
+            url = awsService.uploadImage(file);
 
         }
 
-        return "";
+        return url;
     }
 }

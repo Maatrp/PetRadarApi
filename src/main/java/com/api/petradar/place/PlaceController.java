@@ -21,6 +21,7 @@ public class PlaceController {
     private PlaceService placeService;
     @Autowired
     private UploadPlaceImageService uploadPlaceImageService;
+    private String url;
 
     @PostMapping("/list")
     public ResponseEntity<List<PlaceBase>> getRequestFilter(@RequestBody PlaceFilter placeFilter, @RequestParam Optional<String> userId) {
@@ -48,12 +49,16 @@ public class PlaceController {
             ObjectMapper mapper = new ObjectMapper();
             PlaceDto placeDto = mapper.readValue(placeData, PlaceDto.class);
 
-            if(file != null){
+            if (file != null) {
                 String url = uploadPlaceImageService.uploadImage(file);
-                if(url != null && !url.equalsIgnoreCase("")){
-                    placeDto.setPlaceImages(new PlaceImage[]{new PlaceImage(url)});
+                if (url != null && !url.isEmpty()) {
+                    PlaceImage placeImage = new PlaceImage(url);
+                    PlaceImage[] placeImages = new PlaceImage[1];
+                    placeImages[0] = placeImage;
+                    placeDto.setPlaceImages(placeImages);
                 }
             }
+
             boolean placeCreated = placeService.createPlace(idUser, placeDto);
 
             if (placeCreated) {
@@ -80,6 +85,7 @@ public class PlaceController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @PutMapping("/update-status/{placeId}/{status}")
     public ResponseEntity<String> updateStatusPlace(@PathVariable String placeId, @PathVariable String status) {

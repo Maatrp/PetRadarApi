@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.api.petradar.utils.Mapper.mapPlaceDtoToPlace;
 
@@ -132,6 +129,13 @@ public class PlaceService {
             description.setDescription(place.getDescription());
             description.setLanguage("es");
             descriptionRepository.save(description);
+
+            if(placeDto.getPlaceImages() != null){
+                PlaceImages placeimages = new PlaceImages();
+                placeimages.setId(place.getId());
+                placeimages.setImages(Arrays.asList(placeDto.getPlaceImages()));
+                placeImagesRepository.save(placeimages);
+            }
 
             isCreated = true;
         } else {
