@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.api.petradar.utils.Mapper.mapPlaceDtoToPlace;
 
@@ -126,12 +123,18 @@ public class PlaceService {
 
             placeRepository.save(place);
 
-
             Description description = new Description();
             description.setIdPlace(place.getId());
             description.setDescription(place.getDescription());
             description.setLanguage("es");
             descriptionRepository.save(description);
+
+            if(placeDto.getPlaceImages() != null && placeDto.getPlaceImages().length > 0){
+                PlaceImages placeimages = new PlaceImages();
+                placeimages.setId(place.getId());
+                placeimages.setImages(Arrays.asList(placeDto.getPlaceImages()));
+                placeImagesRepository.save(placeimages);
+            }
 
             isCreated = true;
         } else {
@@ -195,14 +198,13 @@ public class PlaceService {
         }
     }
 
-    public List<PlaceBase> findNearPlaces(double latitude, double longitude, double maxDistanceInMeters, String
-            userId) {
+    public List<PlaceBase> findNearPlaces(PlaceFilter placeFilter, String userId) {
 
         // USAR placeFilter
         List<PlaceBase> placeBases = new ArrayList<>();
 
         try {
-            List<Place> places = placeRepository.findNearPlaces(latitude, longitude, ((maxDistanceInMeters / 1000) / 6371));
+            List<Place> places = placeRepository.findNearPlaces(placeFilter.latitude, placeFilter.longitude, 200000 / 6371);
             if (!places.isEmpty()) {
                 for (Place place : places) {
                     PlaceBase placeBase = getPlaceBase(place);

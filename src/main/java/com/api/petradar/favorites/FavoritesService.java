@@ -58,7 +58,7 @@ public class FavoritesService {
 
             for (Favorite favorite : favoritesList) {
                 Place place = placeRepository.findByCustomId(favorite.getPlaceId());
-                if (place.getStatus().equals("AC")) {
+                if (place != null && place.getStatus().equals("AC")) {
                     PlaceBase placeBase = new PlaceBase(
                             place.getId(),
                             place.getName(),

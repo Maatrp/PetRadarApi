@@ -1,10 +1,14 @@
 package com.api.petradar.place;
 
+import com.api.petradar.placeimages.PlaceImage;
+import com.api.petradar.placeimages.UploadPlaceImageService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +19,8 @@ public class PlaceController {
 
     @Autowired
     private PlaceService placeService;
+    @Autowired
+    private UploadPlaceImageService uploadPlaceImageService;
 
     @PostMapping("/list")
     public ResponseEntity<List<PlaceBase>> getRequestFilter(@RequestBody PlaceFilter placeFilter, @RequestParam Optional<String> userId) {
@@ -35,8 +41,23 @@ public class PlaceController {
 
     @PreAuthorize("hasAuthority('CREATE_PLACE')")
     @PostMapping("/create/{idUser}")
-    public ResponseEntity<String> createPlace(@PathVariable String idUser, @RequestBody PlaceDto placeDto) {
+    public ResponseEntity<String> createPlace(@PathVariable String idUser,
+                                              @RequestPart("placeData") String placeData,
+                                              @RequestPart(name= "file", required = false) MultipartFile file ) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            PlaceDto placeDto = mapper.readValue(placeData, PlaceDto.class);
+
+            if (file != null) {
+                String url = uploadPlaceImageService.uploadImage(file);
+                if (url != null && !url.isEmpty()) {
+                    PlaceImage placeImage = new PlaceImage(url);
+                    PlaceImage[] placeImages = new PlaceImage[1];
+                    placeImages[0] = placeImage;
+                    placeDto.setPlaceImages(placeImages);
+                }
+            }
+
             boolean placeCreated = placeService.createPlace(idUser, placeDto);
 
             if (placeCreated) {
@@ -63,6 +84,7 @@ public class PlaceController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @PutMapping("/update-status/{placeId}/{status}")
     public ResponseEntity<String> updateStatusPlace(@PathVariable String placeId, @PathVariable String status) {

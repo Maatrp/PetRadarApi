@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PlaceRepository  extends MongoRepository<Place, String> {
 
-    @Query(value = "{ 'location' : { $nearSphere : { $geometry : { type : 'Point' , coordinates : [ ?0 , ?1 ] } , $maxDistance : ?2 }}}")
+    @Query(value = "{ 'geo' : { $nearSphere : { $geometry : { type : 'Point' , coordinates : [ ?0 , ?1 ] } , $maxDistance : ?2 }}, 'status' : 'AC'}")
     List<Place> findNearPlaces(double longitude, double latitude, double maxDistanceInRadians);
 
     @Query("{ 'status' : 'AC' }")
