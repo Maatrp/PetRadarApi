@@ -12,5 +12,5 @@ public class PlaceFilter {
     double latitude;
     double longitude;
     int radius;
-    float kmRadius;
+    double kmRadius;
 }

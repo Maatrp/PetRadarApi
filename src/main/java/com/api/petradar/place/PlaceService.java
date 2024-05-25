@@ -123,14 +123,13 @@ public class PlaceService {
 
             placeRepository.save(place);
 
-
             Description description = new Description();
             description.setIdPlace(place.getId());
             description.setDescription(place.getDescription());
             description.setLanguage("es");
             descriptionRepository.save(description);
 
-            if(placeDto.getPlaceImages() != null){
+            if(placeDto.getPlaceImages() != null && placeDto.getPlaceImages().length > 0){
                 PlaceImages placeimages = new PlaceImages();
                 placeimages.setId(place.getId());
                 placeimages.setImages(Arrays.asList(placeDto.getPlaceImages()));

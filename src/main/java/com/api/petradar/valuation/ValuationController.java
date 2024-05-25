@@ -17,7 +17,7 @@ public class ValuationController {
 
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @GetMapping("/{placeId}")
-    public ResponseEntity<List<Valuation>> getPendingPlaces(@PathVariable String placeId) {
+    public ResponseEntity<List<Valuation>> getPlaces(@PathVariable String placeId) {
         try {
             List<Valuation> placeValuations = valuationService.getValuationsPlace(placeId);
 

@@ -13,15 +13,19 @@ public class UploadPlaceImageService {
 
     public String uploadImage(MultipartFile file) throws Exception {
         String url = "";
+        double maxSize = 15 * 1024 * 1024; // 5MB
 
-        if (file.getSize() > 1000 * 1024) {
+        // Verificar el tamaño del archivo
+        if (file.getSize() > maxSize) {
             throw new Exception("El archivo es demasiado grande");
+        }
 
-        } else if (!file.isEmpty()) {
+        // Subir la imagen si no está vacía
+        if (!file.isEmpty()) {
             url = awsService.uploadImage(file);
-
         }
 
         return url;
     }
+
 }

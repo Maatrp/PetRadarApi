@@ -21,7 +21,6 @@ public class PlaceController {
     private PlaceService placeService;
     @Autowired
     private UploadPlaceImageService uploadPlaceImageService;
-    private String url;
 
     @PostMapping("/list")
     public ResponseEntity<List<PlaceBase>> getRequestFilter(@RequestBody PlaceFilter placeFilter, @RequestParam Optional<String> userId) {
@@ -44,7 +43,7 @@ public class PlaceController {
     @PostMapping("/create/{idUser}")
     public ResponseEntity<String> createPlace(@PathVariable String idUser,
                                               @RequestPart("placeData") String placeData,
-                                              @RequestPart("file") MultipartFile file) {
+                                              @RequestPart(name= "file", required = false) MultipartFile file ) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             PlaceDto placeDto = mapper.readValue(placeData, PlaceDto.class);
