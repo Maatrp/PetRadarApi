@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase que representa los datos de un lugar (DTO).
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

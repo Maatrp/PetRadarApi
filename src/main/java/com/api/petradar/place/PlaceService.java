@@ -16,6 +16,10 @@ import java.util.*;
 
 import static com.api.petradar.utils.Mapper.mapPlaceDtoToPlace;
 
+
+/**
+ * Servicio para manejar operaciones relacionadas con lugares.
+ */
 @Service
 public class PlaceService {
 
@@ -31,6 +35,13 @@ public class PlaceService {
     @Autowired
     private FavoritesRepository favoritesRepository;
 
+    /**
+     * Obtiene todos los lugares según los criterios de filtrado.
+     *
+     * @param placeFilter Filtro de lugares.
+     * @param userId      Identificador de usuario.
+     * @return Lista de objetos PlaceBase que representan los lugares.
+     */
     public List<PlaceBase> getAllPlaces(PlaceFilter placeFilter, String userId) {
         List<PlaceBase> placeBases = new ArrayList<>();
 
@@ -53,6 +64,13 @@ public class PlaceService {
     }
 
 
+    /**
+     * Obtiene un lugar por su identificador.
+     *
+     * @param id     Identificador del lugar.
+     * @param userId Identificador del usuario.
+     * @return Objeto Place correspondiente al identificador especificado.
+     */
     public Place getPlaceById(String id, String userId) {
         Place place = null;
         try {
@@ -75,7 +93,12 @@ public class PlaceService {
         return place;
     }
 
-
+    /**
+     * Obtiene las imágenes de un lugar por su identificador.
+     *
+     * @param id Identificador del lugar.
+     * @return Lista de objetos PlaceImage correspondientes al lugar.
+     */
     public List<PlaceImage> getPlaceImagesById(String id) {
         List<PlaceImage> placeImageList = null;
 
@@ -95,6 +118,13 @@ public class PlaceService {
         return placeImageList;
     }
 
+    /**
+     * Crea un nuevo lugar.
+     *
+     * @param idUser   Identificador del usuario que crea el lugar.
+     * @param placeDto Datos del lugar a crear.
+     * @return Verdadero si se ha creado el lugar correctamente, falso en caso contrario.
+     */
     public boolean createPlace(String idUser, PlaceDto placeDto) {
         Place place = mapPlaceDtoToPlace(placeDto);
 
@@ -144,6 +174,12 @@ public class PlaceService {
         return isCreated;
     }
 
+    /**
+     * Obtiene los lugares pendientes.
+     *
+     * @param userId Identificador del usuario.
+     * @return Lista de objetos PlaceBase correspondientes a los lugares pendientes.
+     */
     public List<PlaceBase> getPendingPlaces(String userId){
         List<PlaceBase> placeBases = new ArrayList<>();
 
@@ -165,6 +201,13 @@ public class PlaceService {
         return placeBases;
     }
 
+    /**
+     * Actualiza el estado de un lugar.
+     *
+     * @param placeId Identificador del lugar a actualizar.
+     * @param status  Nuevo estado del lugar.
+     * @return Verdadero si se ha actualizado el estado del lugar correctamente, falso en caso contrario.
+     */
     public boolean updateStatusPlace(String placeId, String status) {
         boolean isStatusUpdated = false;
 
@@ -178,6 +221,13 @@ public class PlaceService {
         return isStatusUpdated;
     }
 
+    /**
+     * Actualiza el estado de varios lugares.
+     *
+     * @param placeIdList Lista de identificadores de lugares a actualizar.
+     * @param status      Nuevo estado de los lugares.
+     * @return Verdadero si se han actualizado los estados de los lugares correctamente, falso en caso contrario.
+     */
     @Transactional
     public boolean updateAllStatusPlaces(List<String> placeIdList, String status) {
         try {
@@ -198,6 +248,13 @@ public class PlaceService {
         }
     }
 
+    /**
+     * Encuentra lugares cercanos a una ubicación dada.
+     *
+     * @param placeFilter Filtro de lugares.
+     * @param userId      Identificador de usuario.
+     * @return Lista de objetos PlaceBase correspondientes a los lugares cercanos.
+     */
     public List<PlaceBase> findNearPlaces(PlaceFilter placeFilter, String userId) {
 
         // USAR placeFilter
@@ -221,6 +278,11 @@ public class PlaceService {
         return placeBases;
     }
 
+    /**
+     * Carga un lugar en la base de datos.
+     *
+     * @param place Lugar a cargar.
+     */
     public void loadPlace(Place place) {
         boolean exists = placeRepository.existsByPlaceNameAndZip(place.getName(), place.getZip());
 
@@ -231,6 +293,13 @@ public class PlaceService {
             System.out.println("Ya existe un lugar con el mismo place_name y zip: " + place);
         }
     }
+
+    /**
+     * Construye un objeto PlaceBase a partir de un objeto Place.
+     *
+     * @param place Objeto Place a partir del cual se construye el PlaceBase.
+     * @return Objeto PlaceBase construido.
+     */
 
     private static PlaceBase getPlaceBase(Place place) {
         PlaceBase placeBase = new PlaceBase();
@@ -246,6 +315,13 @@ public class PlaceService {
         return placeBase;
     }
 
+    /**
+     * Comprueba si un lugar está marcado como favorito por un usuario.
+     *
+     * @param placeId Identificador del lugar.
+     * @param userId  Identificador del usuario.
+     * @return Verdadero si el lugar está marcado como favorito por el usuario, falso en caso contrario.
+     */
     private boolean checkIsFavorite(String placeId, String userId) {
         List<Favorite> favoriteList = favoritesRepository.findAllByUserId(userId);
 
@@ -260,6 +336,13 @@ public class PlaceService {
         return isFavorite;
     }
 
+    /**
+     * Actualiza el estado de un lugar.
+     *
+     * @param placeId Identificador del lugar a actualizar.
+     * @param status  Nuevo estado del lugar.
+     * @return Objeto Place con el estado actualizado.
+     */
     private Place updateStatus(String placeId, String status) {
         Place place = placeRepository.findByCustomId(placeId);
 

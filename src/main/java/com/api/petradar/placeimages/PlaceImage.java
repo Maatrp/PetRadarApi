@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Clase que representa una imagen asociada a un lugar.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -13,6 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Configuración de seguridad HTTP para la aplicación.
+ */
 @Component
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -24,14 +27,31 @@ public class HttpSecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
 
-
+    /**
+     * Configura la seguridad HTTP para la aplicación.
+     *
+     * @param httpSecurity El objeto HttpSecurity a configurar.
+     * @return El filtro de seguridad configurado.
+     * @throws Exception Si hay un error al configurar la seguridad.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                                .requestMatchers("/swagger-ui.html",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/auth/authenticate",
+                                        "/places/list",
+                                        "/places/card/*",
+                                        "/restrictions/list",
+                                        "/tags/list",
+                                        "/type/list",
+                                        "user/create",
+                                        "user/validate-email")
+                                .permitAll()
                                 .anyRequest().authenticated()
 
                 )

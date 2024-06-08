@@ -1,6 +1,7 @@
 package com.api.petradar.favorites;
 
 import com.api.petradar.place.PlaceBase;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +10,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador para manejar las operaciones relacionadas con los lugares favoritos.
+ */
 @RestController
 @RequestMapping(path = "/favorites")
 public class FavoritesController {
     @Autowired
     private FavoritesService favoritesService;
 
+    /**
+     * Añade un lugar a la lista de favoritos de un usuario.
+     *
+     * @param userId El ID del usuario.
+     * @param placeId El ID del lugar que se va a añadir a favoritos.
+     * @return ResponseEntity con un mensaje indicando si se ha añadido correctamente el favorito o no.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @PutMapping("/add/{userId}/{placeId}")
     public ResponseEntity<String> favoriteAdd(@PathVariable String userId, @PathVariable String placeId) {
@@ -33,7 +45,14 @@ public class FavoritesController {
         }
     }
 
-
+    /**
+     * Elimina un lugar de la lista de favoritos de un usuario.
+     *
+     * @param userId El ID del usuario.
+     * @param placeId El ID del lugar que se va a eliminar de favoritos.
+     * @return ResponseEntity con un mensaje indicando si se ha eliminado correctamente el favorito o no.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @DeleteMapping("/remove/{userId}/{placeId}")
     public ResponseEntity<String> favoriteRemove(@PathVariable String userId, @PathVariable String placeId) {
@@ -50,6 +69,13 @@ public class FavoritesController {
         }
     }
 
+    /**
+     * Obtiene la lista de favoritos de un usuario.
+     *
+     * @param userId El ID del usuario.
+     * @return ResponseEntity con la lista de lugares favoritos del usuario.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @GetMapping("/list/{userId}")
     public ResponseEntity<List<PlaceBase>> getFavoritesByUser(@PathVariable String userId) {

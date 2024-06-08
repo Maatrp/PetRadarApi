@@ -10,6 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
+/**
+ * Clase que representa una colección de imágenes asociadas a un lugar.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

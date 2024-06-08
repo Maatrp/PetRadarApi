@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Servicio para gestionar las valoraciones de lugares.
+ */
 @Service
 public class ValuationService {
 
@@ -23,6 +26,12 @@ public class ValuationService {
     @Autowired
     private PlaceRepository placeRepository;
 
+    /**
+     * Obtiene las valoraciones de un lugar por su ID, excluyendo las reportadas.
+     *
+     * @param placeId El ID del lugar.
+     * @return Una lista de valoraciones para el lugar especificado.
+     */
     public List<Valuation> getValuationsPlace(String placeId) {
         List<Valuation> placeValuations = new ArrayList<>();
 
@@ -46,6 +55,12 @@ public class ValuationService {
         return placeValuations;
     }
 
+    /**
+     * Crea una nueva valoración para un lugar.
+     *
+     * @param valuation La valoración a crear.
+     * @return true si la valoración fue creada exitosamente, false en caso contrario.
+     */
     public boolean createValuation(Valuation valuation) {
         boolean alreadyValuated = valuationRepository.alreadyValuated(valuation.getUserId(), valuation.getPlaceId());
         boolean isCreated = false;
@@ -69,6 +84,12 @@ public class ValuationService {
 
     }
 
+    /**
+     * Actualiza una valoración existente.
+     *
+     * @param valuation La valoración a actualizar.
+     * @return true si la valoración fue actualizada exitosamente, false en caso contrario.
+     */
     public boolean updateValuation(Valuation valuation) {
         boolean isUpdated = false;
 
@@ -81,6 +102,12 @@ public class ValuationService {
 
     }
 
+    /**
+     * Elimina una valoración por su ID.
+     *
+     * @param id El ID de la valoración a eliminar.
+     * @return true si la valoración fue eliminada exitosamente, false en caso contrario.
+     */
     public boolean deleteValuation(String id) {
         boolean exists = valuationRepository.existsById(id);
         boolean isDeleted = false;
@@ -93,10 +120,23 @@ public class ValuationService {
         return isDeleted;
     }
 
+    /**
+     * Verifica si un usuario ya ha valorado un lugar específico.
+     *
+     * @param userId  El ID del usuario.
+     * @param placeId El ID del lugar.
+     * @return true si el usuario ya ha valorado el lugar, false en caso contrario.
+     */
     public boolean alreadyValuated(String userId, String placeId) {
         return valuationRepository.alreadyValuated(userId, placeId);
     }
 
+    /**
+     * Actualiza la calificación promedio de un lugar.
+     *
+     * @param placeId El ID del lugar.
+     * @return La calificación promedio actualizada.
+     */
     private double updateAverageRating(String placeId) {
         List<Valuation> valuationList = valuationRepository.findByPlaceId(placeId);
 

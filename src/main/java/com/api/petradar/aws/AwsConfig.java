@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuración de AWS para la aplicación.
+ * Proporciona un bean de AmazonS3 configurado con las credenciales y la región especificadas.
+ */
 @Configuration
 public class AwsConfig {
 
@@ -21,11 +25,17 @@ public class AwsConfig {
     @Value("${aws.s3.region}")
     private String region;
 
-
+    /**
+     * Proporciona un bean de AmazonS3 configurado con las credenciales y la región especificadas.
+     *
+     * @return Un cliente de AmazonS3 configurado.
+     */
     @Bean
     public AmazonS3 getS3Client() {
         BasicAWSCredentials credentials = new BasicAWSCredentials(accessKeyId, secretAccessKey);
-        return AmazonS3ClientBuilder.standard().withRegion(Regions.fromName(region))
-                .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        return AmazonS3ClientBuilder.standard()
+                .withRegion(Regions.fromName(region))
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .build();
     }
 }

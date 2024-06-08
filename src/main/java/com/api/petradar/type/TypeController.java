@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controlador para gestionar los tipos de los lugares.
+ */
 @RestController
 @RequestMapping(path = "/type")
 public class TypeController {
@@ -16,6 +19,11 @@ public class TypeController {
     @Autowired
     private TypeService typeService;
 
+    /**
+     * Obtiene todos los tipos de lugar.
+     *
+     * @return ResponseEntity con la lista de tipos de lugar o HttpStatus.NO_CONTENT si no hay tipos de lugar.
+     */
     @GetMapping("/list")
     public ResponseEntity<List<Type>> getAllTypes() {
         try {

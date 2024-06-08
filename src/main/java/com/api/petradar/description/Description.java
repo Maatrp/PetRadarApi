@@ -8,6 +8,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+
+/**
+ * Clase que representa la descripción de un lugar.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

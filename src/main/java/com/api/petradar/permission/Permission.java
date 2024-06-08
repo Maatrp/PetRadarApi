@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Una entidad que representa los permisos de un usuario en la aplicación.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

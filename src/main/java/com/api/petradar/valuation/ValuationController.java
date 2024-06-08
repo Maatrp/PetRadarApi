@@ -1,5 +1,6 @@
 package com.api.petradar.valuation;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador para gestionar las valoraciones de los lugares.
+ */
 @RestController
 @RequestMapping(path = "/valuations")
 public class ValuationController {
@@ -15,6 +19,12 @@ public class ValuationController {
     @Autowired
     private ValuationService valuationService;
 
+    /**
+     * Obtiene todas las valoraciones.
+     *
+     * @return ResponseEntity con la lista de valoraciones o HttpStatus.NO_CONTENT si no hay valoraciones.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @GetMapping("/{placeId}")
     public ResponseEntity<List<Valuation>> getPlaces(@PathVariable String placeId) {
@@ -28,6 +38,13 @@ public class ValuationController {
         }
     }
 
+    /**
+     * Crea una nueva valoración para un lugar.
+     *
+     * @param valuation Objeto Valuation que representa la valoración a crear.
+     * @return ResponseEntity con un mensaje indicando el resultado de la operación.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @PostMapping("/create")
     public ResponseEntity<String> createValuation(@RequestBody Valuation valuation) {
@@ -46,6 +63,13 @@ public class ValuationController {
         }
     }
 
+    /**
+     * Modifica una valoración existente.
+     *
+     * @param valuation Objeto Valuation que representa la valoración a modificar.
+     * @return ResponseEntity con un mensaje indicando el resultado de la operación.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @PutMapping("/modify")
     public ResponseEntity<String> modifyValuation(@RequestBody Valuation valuation) {
@@ -60,6 +84,13 @@ public class ValuationController {
         }
     }
 
+    /**
+     * Elimina una valoración existente.
+     *
+     * @param id Identificador de la valoración a eliminar.
+     * @return ResponseEntity con un mensaje indicando el resultado de la operación.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteValuation(@PathVariable String id) {
@@ -76,6 +107,14 @@ public class ValuationController {
 
     }
 
+    /**
+     * Verifica si un usuario ya ha valorado un lugar específico.
+     *
+     * @param userId  Identificador del usuario.
+     * @param placeId Identificador del lugar.
+     * @return ResponseEntity con un booleano indicando si el usuario ya ha valorado el lugar o HttpStatus.NO_CONTENT si ocurre un error.
+     */
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @GetMapping("/{userId}/{placeId}")
     public ResponseEntity<Boolean> getIsAlreadyValuated(@PathVariable String userId,@PathVariable String placeId) {

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+/**
+ * Servicio que maneja la lógica de autenticación de usuarios.
+ */
 @Service
 public class AuthenticationService {
 
@@ -23,6 +26,14 @@ public class AuthenticationService {
     @Autowired
     private JwtService jwtService;
 
+
+    /**
+     * Autentica al usuario utilizando sus credenciales y genera un token JWT si la autenticación es exitosa.
+     *
+     * @param authRequest La solicitud de autenticación que contiene las credenciales del usuario.
+     * @return Una respuesta de autenticación que contiene el token JWT y la información del usuario,
+     *         o {@code null} si la autenticación falla.
+     */
     public AuthenticationResponse login(AuthenticationRequest authRequest) {
 
         UsernamePasswordAuthenticationToken userNamePasswordAuthToken = new UsernamePasswordAuthenticationToken(
@@ -47,10 +58,22 @@ public class AuthenticationService {
 
     }
 
+    /**
+     * Genera un token JWT para un usuario dado.
+     *
+     * @param user El usuario para el cual se genera el token JWT.
+     * @return El token JWT generado.
+     */
     public String generateJwt(User user) {
       return  jwtService.generateToken(user, generateExtraClaims(user));
     }
 
+    /**
+     * Genera las reclamaciones adicionales que se incluirán en el token JWT.
+     *
+     * @param user El usuario para el cual se generan las reclamaciones.
+     * @return Un mapa de reclamaciones adicionales.
+     */
     private Map<String, Object> generateExtraClaims(User user) {
 
         return Map.of(

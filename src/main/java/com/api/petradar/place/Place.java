@@ -12,6 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Una entidad que representa un lugar en la aplicación.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

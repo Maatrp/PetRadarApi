@@ -6,8 +6,17 @@ import com.api.petradar.place.PlaceGeolocation;
 
 import java.util.Arrays;
 
+/**
+ * Clase utilitaria para mapear objetos PlaceDto a objetos Place.
+ */
 public class Mapper {
 
+    /**
+     * Mapea un objeto PlaceDto a un objeto Place.
+     *
+     * @param placeDTO El objeto PlaceDto que se desea mapear.
+     * @return El objeto Place mapeado a partir del PlaceDto.
+     */
     public static Place mapPlaceDtoToPlace(PlaceDto placeDTO) {
         Place place = new Place();
 

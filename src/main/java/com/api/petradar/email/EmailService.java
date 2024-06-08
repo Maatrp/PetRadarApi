@@ -12,6 +12,9 @@ import java.util.Properties;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
 
+/**
+ * Servicio para enviar correos electrónicos de verificación de email.
+ */
 @Service
 public class EmailService {
 
@@ -39,7 +42,12 @@ public class EmailService {
     @Value("${mail.smtp.ssl.enable}")
     private boolean sslEnable;
 
-
+    /**
+     * Envía un correo electrónico de verificación de email.
+     *
+     * @param to La dirección de correo electrónico a la que se enviará el correo.
+     * @return true si el correo se envió correctamente, false si hubo algún error.
+     */
     public Boolean sendEmail(String to) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", this.auth);
@@ -65,7 +73,7 @@ public class EmailService {
             User user = userService.findUserByEmail(to);
             String body = "<h1>Verificación de Email</h1>"
                     + "<p>Clica en el enlace de a continuación para verificar su correo electrónico</p>"
-                    + "<a href=\"http://petradar-web-stc.s3-website.eu-west-3.amazonaws.com/user/validate-email?email="
+                    + "<a href=\"http://petradar-api-1256.eu-west-3.elasticbeanstalk.com/user/validate-email?email="
                     + to + "&token=" + authenticationService.generateJwt(user) + "\">Verificar Email</a>";
             message.setContent(body, "text/html");
 

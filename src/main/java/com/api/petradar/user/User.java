@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Clase que representa un usuario en el sistema.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -59,7 +62,11 @@ public class User implements UserDetails {
     private Date timeCreated;
 
 
-
+    /**
+     * Obtiene una colección de autoridades (permisos) asignadas al usuario.
+     *
+     * @return Una colección de autoridades.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -75,22 +82,42 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    /**
+     * Obtiene el nombre de usuario del usuario.
+     *
+     * @return El nombre de usuario.
+     */
     @Override
     public String getUsername() {
         return userName;
     }
 
 
+    /**
+     * Indica si la cuenta del usuario ha expirado.
+     *
+     * @return true si la cuenta no ha expirado, false en caso contrario.
+     */
     @Override
     public boolean isAccountNonExpired() {
         return isEnabled;
     }
 
+    /**
+     * Indica si la cuenta del usuario está bloqueada.
+     *
+     * @return true si la cuenta no está bloqueada, false en caso contrario.
+     */
     @Override
     public boolean isAccountNonLocked() {
         return isEnabled;
     }
 
+    /**
+     * Indica si las credenciales del usuario (contraseña) han expirado.
+     *
+     * @return true si las credenciales no han expirado, false en caso contrario.
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return isCredentialsEnabled;
