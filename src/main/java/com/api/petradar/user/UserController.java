@@ -1,6 +1,7 @@
 package com.api.petradar.user;
 
 import com.api.petradar.email.EmailService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.ws.rs.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,7 +62,7 @@ public class UserController {
         }
 
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('MODIFY_USER')")
     @PutMapping("/modify")
     public ResponseEntity<String> modifyUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
@@ -75,7 +76,7 @@ public class UserController {
             return new ResponseEntity<>("No se ha podido modificar el usuario.", HttpStatus.CONFLICT);
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('DELETE_USER')")
     @DeleteMapping("/delete/{userName}")
     public ResponseEntity<String> deleteUser(@PathVariable String userName, @RequestHeader("Authorization") String token) {

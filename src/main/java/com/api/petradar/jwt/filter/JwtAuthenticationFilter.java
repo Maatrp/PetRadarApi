@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -26,8 +28,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
+    private static final List<String> EXCLUDED_PATHS = Arrays.asList(
+            "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**"
+    );
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String requestPath = request.getRequestURI();
+
+        // Verificar si la solicitud es una de las rutas excluidas
+        if (EXCLUDED_PATHS.stream().anyMatch(requestPath::startsWith)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             // Obtener el header que contiente el jwt
             String authHeader = request.getHeader("Authorization");

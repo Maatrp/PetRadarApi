@@ -3,6 +3,7 @@ package com.api.petradar.place;
 import com.api.petradar.placeimages.PlaceImage;
 import com.api.petradar.placeimages.UploadPlaceImageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class PlaceController {
         Place place = placeService.getPlaceById(id, userId.orElse(""));
         return new ResponseEntity<>(place, HttpStatus.OK);
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('CREATE_PLACE')")
     @PostMapping("/create/{idUser}")
     public ResponseEntity<String> createPlace(@PathVariable String idUser,
@@ -71,7 +72,7 @@ public class PlaceController {
                     .body("No se ha podido crear el lugar.");
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @GetMapping("/pending-places/{userId}")
     public ResponseEntity<List<PlaceBase>> getPendingPlaces(@PathVariable String userId) {
@@ -84,7 +85,7 @@ public class PlaceController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @PutMapping("/update-status/{placeId}/{status}")
     public ResponseEntity<String> updateStatusPlace(@PathVariable String placeId, @PathVariable String status) {
@@ -102,7 +103,7 @@ public class PlaceController {
                     .body("No se ha podido modificar el estado.");
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @PutMapping("/update-all-status/{status}")
     public ResponseEntity<String> updateAllStatusPlaces(@RequestBody List<String> placeIdList, @PathVariable String status) {

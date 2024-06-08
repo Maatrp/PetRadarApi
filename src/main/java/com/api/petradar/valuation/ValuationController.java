@@ -1,5 +1,6 @@
 package com.api.petradar.valuation;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ public class ValuationController {
 
     @Autowired
     private ValuationService valuationService;
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @GetMapping("/{placeId}")
     public ResponseEntity<List<Valuation>> getPlaces(@PathVariable String placeId) {
@@ -27,7 +28,7 @@ public class ValuationController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @PostMapping("/create")
     public ResponseEntity<String> createValuation(@RequestBody Valuation valuation) {
@@ -45,7 +46,7 @@ public class ValuationController {
                     .body("No se ha podido valorar el lugar.");
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @PutMapping("/modify")
     public ResponseEntity<String> modifyValuation(@RequestBody Valuation valuation) {
@@ -59,7 +60,7 @@ public class ValuationController {
             return new ResponseEntity<>("No se ha podido modificar la valoración.", HttpStatus.CONFLICT);
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteValuation(@PathVariable String id) {
@@ -75,7 +76,7 @@ public class ValuationController {
         }
 
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('VALUATION_PLACE')")
     @GetMapping("/{userId}/{placeId}")
     public ResponseEntity<Boolean> getIsAlreadyValuated(@PathVariable String userId,@PathVariable String placeId) {

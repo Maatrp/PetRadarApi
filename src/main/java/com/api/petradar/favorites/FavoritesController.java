@@ -1,6 +1,7 @@
 package com.api.petradar.favorites;
 
 import com.api.petradar.place.PlaceBase;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ public class FavoritesController {
     @Autowired
     private FavoritesService favoritesService;
 
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @PutMapping("/add/{userId}/{placeId}")
     public ResponseEntity<String> favoriteAdd(@PathVariable String userId, @PathVariable String placeId) {
@@ -33,7 +35,7 @@ public class FavoritesController {
         }
     }
 
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @DeleteMapping("/remove/{userId}/{placeId}")
     public ResponseEntity<String> favoriteRemove(@PathVariable String userId, @PathVariable String placeId) {
@@ -49,7 +51,7 @@ public class FavoritesController {
             return new ResponseEntity<>("No se ha podido añadir a la lista de favoritos", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('FAVORITE_PLACE')")
     @GetMapping("/list/{userId}")
     public ResponseEntity<List<PlaceBase>> getFavoritesByUser(@PathVariable String userId) {
