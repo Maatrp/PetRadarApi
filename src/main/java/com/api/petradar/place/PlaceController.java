@@ -14,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controlador para manejar las solicitudes relacionadas con los lugares.
+ */
 @RestController
 @RequestMapping(path = "/places")
 public class PlaceController {
@@ -23,6 +26,12 @@ public class PlaceController {
     @Autowired
     private UploadPlaceImageService uploadPlaceImageService;
 
+    /**
+     * Maneja las solicitudes POST para obtener una lista de lugares filtrada.
+     * @param placeFilter El filtro de lugar para aplicar.
+     * @param userId El ID del usuario opcional.
+     * @return ResponseEntity con una lista de PlaceBase y el estado HTTP correspondiente.
+     */
     @PostMapping("/list")
     public ResponseEntity<List<PlaceBase>> getRequestFilter(@RequestBody PlaceFilter placeFilter, @RequestParam Optional<String> userId) {
         try {
@@ -34,11 +43,25 @@ public class PlaceController {
         }
     }
 
+    /**
+     * Maneja las solicitudes GET para obtener información detallada de un lugar por su ID.
+     * @param id El ID del lugar.
+     * @param userId El ID del usuario opcional.
+     * @return ResponseEntity con el lugar y el estado HTTP correspondiente.
+     */
     @GetMapping("/card/{id}")
     public ResponseEntity<Place> getPlaceById(@PathVariable String id, @RequestParam Optional<String> userId) {
         Place place = placeService.getPlaceById(id, userId.orElse(""));
         return new ResponseEntity<>(place, HttpStatus.OK);
     }
+
+    /**
+     * Maneja las solicitudes POST para crear un nuevo lugar.
+     * @param idUser El ID del usuario que crea el lugar.
+     * @param placeData Los datos del lugar en formato JSON.
+     * @param file El archivo de imagen del lugar (opcional).
+     * @return ResponseEntity con un mensaje y el estado HTTP correspondiente.
+     */
     @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('CREATE_PLACE')")
     @PostMapping("/create/{idUser}")
@@ -72,6 +95,12 @@ public class PlaceController {
                     .body("No se ha podido crear el lugar.");
         }
     }
+
+    /**
+     * Maneja las solicitudes GET para obtener una lista de lugares pendientes.
+     * @param userId El ID del usuario que realiza la solicitud.
+     * @return ResponseEntity con una lista de PlaceBase y el estado HTTP correspondiente.
+     */
     @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @GetMapping("/pending-places/{userId}")
@@ -85,6 +114,13 @@ public class PlaceController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+    /**
+     * Maneja las solicitudes PUT para actualizar el estado de un lugar específico.
+     * @param placeId El ID del lugar que se actualizará.
+     * @param status El nuevo estado del lugar.
+     * @return ResponseEntity con un mensaje y el estado HTTP correspondiente.
+     */
     @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @PutMapping("/update-status/{placeId}/{status}")
@@ -103,6 +139,13 @@ public class PlaceController {
                     .body("No se ha podido modificar el estado.");
         }
     }
+
+    /**
+     * Maneja las solicitudes PUT para actualizar el estado de varios lugares.
+     * @param placeIdList La lista de IDs de lugares que se actualizarán.
+     * @param status El nuevo estado de los lugares.
+     * @return ResponseEntity con un mensaje y el estado HTTP correspondiente.
+     */
     @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasAuthority('UPDATE_STATUS_PLACE')")
     @PutMapping("/update-all-status/{status}")

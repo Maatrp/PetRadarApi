@@ -8,9 +8,18 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Collections;
 
+/**
+ * Configuración de CORS (Cross-Origin Resource Sharing) para permitir solicitudes desde cualquier origen.
+ */
 @Configuration
 public class CorsConfig {
 
+    /**
+     * Bean que configura el filtro CORS para permitir solicitudes desde cualquier origen, cualquier encabezado
+     * y cualquier método HTTP.
+     *
+     * @return El filtro CORS configurado.
+     */
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

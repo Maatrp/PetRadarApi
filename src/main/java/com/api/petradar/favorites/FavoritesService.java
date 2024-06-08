@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Servicio para gestionar las operaciones relacionadas con los lugares favoritos.
+ */
 @Service
 public class FavoritesService {
     @Autowired
@@ -18,7 +21,13 @@ public class FavoritesService {
     @Autowired
     private PlaceRepository placeRepository;
 
-
+    /**
+     * Añade un lugar a la lista de favoritos de un usuario.
+     *
+     * @param userId El ID del usuario.
+     * @param placeId El ID del lugar que se va a añadir a favoritos.
+     * @return true si el lugar se añadió correctamente a la lista de favoritos, false de lo contrario.
+     */
     public boolean favoriteAdd(String userId, String placeId) {
         boolean added = false;
         try {
@@ -38,7 +47,13 @@ public class FavoritesService {
         return added;
     }
 
-
+    /**
+     * Elimina un lugar de la lista de favoritos de un usuario.
+     *
+     * @param userId El ID del usuario.
+     * @param placeId El ID del lugar que se va a eliminar de favoritos.
+     * @return true si el lugar se eliminó correctamente de la lista de favoritos, false de lo contrario.
+     */
     public boolean favoriteRemove(String userId, String placeId) {
         boolean removed = false;
         try {
@@ -50,6 +65,12 @@ public class FavoritesService {
         return removed;
     }
 
+    /**
+     * Obtiene la lista de lugares favoritos de un usuario.
+     *
+     * @param userId El ID del usuario.
+     * @return Una lista de lugares favoritos del usuario.
+     */
     public List<PlaceBase> getFavoritesByUser(String userId) {
 
         try {

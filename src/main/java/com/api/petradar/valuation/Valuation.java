@@ -11,6 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 
+/**
+ * Clase que representa las valoraciones de un lugar.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

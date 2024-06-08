@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controlador para gestionar los tags de los lugares.
+ */
 @RestController
 @RequestMapping(path = "/tags")
 public class TagsContoller {
@@ -16,6 +19,11 @@ public class TagsContoller {
     @Autowired
     private TagsSevice tagsSevice;
 
+    /**
+     * Obtiene todos los tags.
+     *
+     * @return ResponseEntity con la lista de tags o HttpStatus.NO_CONTENT si no hay tags.
+     */
     @GetMapping("/list")
     public ResponseEntity<List<Tags>> getAllTags() {
         try {

@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
+/**
+ * Controlador para gestionar las restricciones de los lugares.
+ */
 @RestController
 @RequestMapping(path = "/restrictions")
 public class RestrictionsController {
@@ -16,6 +20,11 @@ public class RestrictionsController {
     @Autowired
     private RestrictionsService restrictionsService;
 
+    /**
+     * Obtiene todas las restricciones.
+     *
+     * @return ResponseEntity con la lista de restricciones o HttpStatus.NO_CONTENT si no hay restricciones.
+     */
     @GetMapping("/list")
     public ResponseEntity<List<Restrictions>> getAllRestrictions() {
         try {

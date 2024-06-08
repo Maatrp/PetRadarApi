@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Servicio para la generación y manipulación de tokens JWT (Json Web Token).
+ */
 @Service
 public class JwtService {
 
@@ -24,7 +27,13 @@ public class JwtService {
     @Value("${security.jwt.secret-key}")
     private String SECRET_KEY;
 
-
+    /**
+     * Genera un token JWT para el usuario con las reclamaciones especificadas.
+     *
+     * @param user        El usuario para el cual se genera el token.
+     * @param extraClaims Las reclamaciones adicionales para incluir en el token.
+     * @return El token JWT generado.
+     */
     public String generateToken(User user, Map<String, Object> extraClaims) {
 
         Date issuedAt = new Date(System.currentTimeMillis());
@@ -40,6 +49,12 @@ public class JwtService {
                 .compact();
     }
 
+    /**
+     * Extrae el nombre de usuario del token JWT especificado.
+     *
+     * @param jwt El token JWT del cual se extrae el nombre de usuario.
+     * @return El nombre de usuario extraído del token.
+     */
     public String extractUsername(String jwt) {
 
         return extractAllClaims(jwt)
@@ -47,13 +62,23 @@ public class JwtService {
 
     }
 
+    /**
+     * Genera la clave secreta para firmar y verificar el token JWT.
+     *
+     * @return La clave secreta generada.
+     */
     private Key generateKey() {
         byte[] secretAsBytes = Decoders.BASE64.decode(SECRET_KEY);
         System.out.println("Mi token: " + Arrays.toString(secretAsBytes));
         return Keys.hmacShaKeyFor(secretAsBytes);
     }
 
-
+    /**
+     * Extrae todas las reclamaciones del token JWT especificado.
+     *
+     * @param jwt El token JWT del cual se extraen las reclamaciones.
+     * @return Las reclamaciones extraídas del token.
+     */
     private Claims extractAllClaims(String jwt) {
         return Jwts
                 .parserBuilder()

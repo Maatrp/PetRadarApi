@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * Servicio para manejar operaciones relacionadas con usuario.
+ */
 @Service
 public class UserService {
     @Autowired
@@ -19,6 +22,12 @@ public class UserService {
     @Autowired
     private JwtService jwtService;
 
+    /**
+     * Crea un nuevo usuario en el sistema.
+     *
+     * @param user El usuario a crear.
+     * @return true si el usuario se creó con éxito, false si el usuario ya existe.
+     */
     public boolean createUser(User user) {
         boolean exists = userRepository.existsByUserName(user.getUsername());
         boolean created = false;
@@ -42,6 +51,13 @@ public class UserService {
         return created;
     }
 
+    /**
+     * Verifica el correo electrónico de un usuario utilizando un token.
+     *
+     * @param email El correo electrónico a verificar.
+     * @param token El token de verificación.
+     * @return true si el correo electrónico se verificó con éxito, false en caso contrario.
+     */
     public boolean emailVerified(String email, String token) {
         boolean isVerified = false;
 
@@ -61,6 +77,13 @@ public class UserService {
         return isVerified;
     }
 
+    /**
+     * Encuentra un usuario por su nombre de usuario.
+     *
+     * @param userName El nombre de usuario.
+     * @return El usuario correspondiente al nombre de usuario especificado.
+     * @throws NullPointerException si el usuario no existe.
+     */
     public User findUserByUserName(String userName) {
 
         User user = userRepository.findUserByUserName(userName);
@@ -75,6 +98,13 @@ public class UserService {
         }
     }
 
+    /**
+     * Encuentra un usuario por su correo electrónico.
+     *
+     * @param email El correo electrónico.
+     * @return El usuario correspondiente al correo electrónico especificado.
+     * @throws NullPointerException si el usuario no existe.
+     */
     public User findUserByEmail(String email) {
 
         User user = userRepository.findUserByEmail(email);
@@ -87,6 +117,13 @@ public class UserService {
         }
     }
 
+    /**
+     * Actualiza un usuario.
+     *
+     * @param user  El usuario con los nuevos datos.
+     * @param token El token de autenticación.
+     * @return true si el usuario se actualizó con éxito, false en caso contrario.
+     */
     public boolean updateUser(User user,String token) {
         User userByJwt = extractUserNameFromJwt(token);
         String userName = user.getUsername();
@@ -101,6 +138,12 @@ public class UserService {
 
     }
 
+    /**
+     * Elimina un usuario por su nombre de usuario.
+     *
+     * @param userName El nombre de usuario.
+     * @return true si el usuario se eliminó con éxito, false en caso contrario.
+     */
     public boolean deleteByUserName(String userName) {
         boolean exists = userRepository.existsByUserName(userName);
         boolean isDeleted = false;
@@ -114,6 +157,13 @@ public class UserService {
         return isDeleted;
     }
 
+    /**
+     * Elimina un usuario por su nombre de usuario y token de autenticación.
+     *
+     * @param userName El nombre de usuario.
+     * @param token    El token de autenticación.
+     * @return true si el usuario se eliminó con éxito, false en caso contrario.
+     */
     public boolean deleteByUserNameAndToken(String userName, String token) {
         User userByJwt = extractUserNameFromJwt(token);
 
@@ -127,6 +177,12 @@ public class UserService {
         return isDeleted;
     }
 
+    /**
+     * Extrae el nombre de usuario de un token JWT.
+     *
+     * @param token El token JWT.
+     * @return El usuario correspondiente al nombre de usuario extraído del token.
+     */
     private User extractUserNameFromJwt(String token) {
         String userName = jwtService.extractUsername(token);
 

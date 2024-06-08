@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Clase que representa los datos filtrados de un lugar.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

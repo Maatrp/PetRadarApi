@@ -4,7 +4,6 @@ import com.api.petradar.jwt.JwtService;
 import com.api.petradar.user.User;
 import com.api.petradar.user.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +19,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+
+/**
+ * Filtro para autenticar las solicitudes utilizando JWT (Json Web Token).
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
@@ -32,6 +35,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**"
     );
 
+    /**
+     * Ejecuta la lógica de filtrado para autenticar las solicitudes utilizando JWT.
+     * Este método se invoca una vez por cada solicitud entrante.
+     *
+     * @param request La solicitud HTTP entrante.
+     * @param response La respuesta HTTP que se enviará al cliente.
+     * @param filterChain El objeto FilterChain para invocar el siguiente filtro en la cadena.
+     * @throws ServletException Si ocurre una excepción en el servlet.
+     * @throws IOException Si ocurre una excepción de E/S.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestPath = request.getRequestURI();

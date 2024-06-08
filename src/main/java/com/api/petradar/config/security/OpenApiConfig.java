@@ -7,6 +7,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
+
+/**
+ * Configuración de la documentación OpenAPI para la API de Pet Radar.
+ */
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "Pet Radar API", version = "v1"),

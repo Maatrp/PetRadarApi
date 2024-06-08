@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Servicio que maneja la lógica para cargar imágenes a Amazon S3.
+ */
 @Service
 public class AWSS3Service {
 
@@ -20,6 +23,12 @@ public class AWSS3Service {
     @Value("${aws.s3.bucket}")
     private String bucketName;
 
+    /**
+     * Carga una imagen a un bucket de Amazon S3 y devuelve la URL pública de la imagen cargada.
+     *
+     * @param file El archivo de imagen a cargar.
+     * @return La URL pública de la imagen cargada.
+     */
     public String uploadImage(MultipartFile file) {
         String url = "";
         File mainFile = new File(file.getOriginalFilename());
